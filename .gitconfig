@@ -1,0 +1,23 @@
+[user]
+	name = Nolan Bjarne Schiemann
+	email = nolan.bjarne@icloud.com
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[lfs]
+	locksverify = true
+[core]
+	autocrlf = true
+[mergetool]
+    keepBackup = false
+[merge]
+    tool = rider
+[mergetool "rider"]
+    cmd = "\"C:/Program Files/JetBrains/JetBrains Rider 2025.2.2.1/bin/rider64.exe\" merge \"$LOCAL\" \"$REMOTE\" \"$BASE\" \"$MERGED\""
+    trustExitCode = true
+[merge "unityyamlmerge"]
+	name = Unity YAML Merge
+	driver = \"C:/Program Files/Unity/Hub/Editor/6000.0.58f2/Editor/Data/Tools/UnityYAMLMerge.exe\" merge -p --force %O %A %B %P
+	recursive = binary
