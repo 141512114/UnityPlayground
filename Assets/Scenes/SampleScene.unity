@@ -414,7 +414,8 @@ MonoBehaviour:
   rigidbody: {fileID: 1009960772}
   moveSpeed: 3
   jumpForce: 5
-  inputCooldown: 1
+  maxHorizontalSpeed: 5
+  maxVerticalSpeed: 5
 --- !u!4 &288908564
 Transform:
   m_ObjectHideFlags: 0
