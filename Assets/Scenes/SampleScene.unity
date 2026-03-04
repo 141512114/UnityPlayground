@@ -381,8 +381,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dfa044ec9be698439eb794e983f144f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  isMainCamera: 0
-  isStatic: 1
+  profile: {fileID: 11400000, guid: fb648a0ac6a6fe04e9239aafd515398f, type: 2}
 --- !u!1 &288908562
 GameObject:
   m_ObjectHideFlags: 0
@@ -412,9 +411,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fe35be65c62645a19a324c4f1eaa7b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  playerRigidbody: {fileID: 1009960772}
+  rigidbody: {fileID: 1009960772}
   moveSpeed: 3
   jumpForce: 5
+  inputCooldown: 1
 --- !u!4 &288908564
 Transform:
   m_ObjectHideFlags: 0
@@ -582,8 +582,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dfa044ec9be698439eb794e983f144f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraInstance
-  isMainCamera: 1
-  isStatic: 0
+  profile: {fileID: 11400000, guid: 40120fbc523cf6145964fbbe8d601e23, type: 2}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -980,8 +979,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   cameras:
-  - {fileID: 330585548}
   - {fileID: 111716373}
+  - {fileID: 330585548}
   target: {fileID: 1009960776}
   followSpeed: 5
 --- !u!1 &1009960771

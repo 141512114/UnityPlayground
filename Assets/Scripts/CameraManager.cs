@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+public class CameraManager : MonoBehaviour
 {
     public CameraInstance[] cameras;
     public Transform        target;

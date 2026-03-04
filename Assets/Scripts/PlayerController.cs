@@ -3,10 +3,12 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    public Rigidbody playerRigidbody;
+    public new Rigidbody rigidbody;
 
-    public float moveSpeed = 5f;
-    public float jumpForce = 5f;
+    public float moveSpeed          = 5f;
+    public float jumpForce          = 5f;
+    public float maxHorizontalSpeed = 3f; // Maximale horizontale Geschwindigkeit
+    public float maxVerticalSpeed   = 5f; // Maximale vertikale Geschwindigkeit
 
     private InputAction _moveAction;
 
@@ -22,18 +24,39 @@ public class PlayerController : MonoBehaviour
 
         if ( !_moveAction.IsPressed() || moveValue == Vector2.zero ) return;
 
-        // Horizontale Bewegung
-        float horizontalVelocity = moveValue.x * moveSpeed;
+        // Horizontale Bewegung (x-Achse)
+        rigidbody.AddForce( moveValue.x * moveSpeed, 0, 0, ForceMode.Impulse );
 
-        // Vertikale Bewegung
+        // Vertikale Bewegung (y-Achse)
         if ( moveValue.y > 0 ) // W - nach oben springen
         {
-            playerRigidbody.linearVelocity = new Vector3( horizontalVelocity, jumpForce, 0 );
+            rigidbody.AddForce( 0, jumpForce, 0, ForceMode.Impulse );
         }
         else if ( moveValue.y < 0 ) // S - nach unten drücken
         {
-            playerRigidbody.linearVelocity = new Vector3( horizontalVelocity, -jumpForce, 0 );
+            rigidbody.AddForce( 0, -jumpForce, 0, ForceMode.Impulse );
         }
-        else { playerRigidbody.linearVelocity = new Vector3( horizontalVelocity, playerRigidbody.linearVelocity.y, 0 ); }
+
+        // Velocity auf maximalen Wert begrenzen
+        ClampVelocity();
+    }
+
+    private void ClampVelocity()
+    {
+        var velocity = rigidbody.linearVelocity;
+
+        // Horizontale Geschwindigkeit limitieren
+        float horizontalSpeed = new Vector2( velocity.x, velocity.z ).magnitude;
+        if ( horizontalSpeed > maxHorizontalSpeed )
+        {
+            float ratio = maxHorizontalSpeed / horizontalSpeed;
+            velocity.x *= ratio;
+            velocity.z *= ratio;
+        }
+
+        // Vertikale Geschwindigkeit limitieren
+        velocity.y = Mathf.Clamp( velocity.y, -maxVerticalSpeed, maxVerticalSpeed );
+
+        rigidbody.linearVelocity = velocity;
     }
 }
