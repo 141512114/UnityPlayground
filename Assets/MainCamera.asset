@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: MainCamera
   m_EditorClassIdentifier: Assembly-CSharp::CameraProfile
   isMainCamera: 1
-  isStatic: 0
+  lockPosition: 0
+  lockRotation: 1
+  laziness: 5

@@ -7,8 +7,8 @@ public class PlayerController : MonoBehaviour
 
     public float moveSpeed          = 5f;
     public float jumpForce          = 5f;
-    public float maxHorizontalSpeed = 3f; // Maximale horizontale Geschwindigkeit
-    public float maxVerticalSpeed   = 5f; // Maximale vertikale Geschwindigkeit
+    public float maxHorizontalSpeed = 3f;
+    public float maxVerticalSpeed   = 5f;
 
     private InputAction _moveAction;
 

@@ -1,59 +1,78 @@
-using System;
 using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
     public CameraInstance[] cameras;
     public Transform        target;
-    public float            followSpeed = 5f;
 
     private CameraInstance _currentCameraInstance;
+    private int            _currentCameraIndex;
+    private Camera         _currentCamera;
 
     private void Start()
     {
-        // Aktiviere die erste Kamera und deaktiviere die anderen
+        // Finde die aktive Kamera (erste oder Hauptkamera)
+        _currentCameraIndex = 0;
         for ( int i = 0; i < cameras.Length; i++ )
         {
-            CameraInstance cInstance = cameras[ i ];
-            Camera         cam       = cInstance.GetCamera();
-
-            cam.gameObject.SetActive( i == 0 || cInstance.IsMainCamera() );
-            if ( i == 0 || cInstance.IsMainCamera() ) _currentCameraInstance = cInstance;
+            if ( !cameras[ i ].IsMainCamera() ) continue;
+            _currentCameraIndex = i;
+            break;
         }
 
-        // Wenn die aktuelle Kamera die Hauptkamera ist, deaktiviere die erste Kamera aus der Liste, damit sie nicht mit der Hauptkamera kollidiert
-        if ( _currentCameraInstance.IsMainCamera() ) cameras[ 0 ].GetCamera().gameObject.SetActive( false );
+        // Setze die aktuelle Kamera
+        _currentCameraInstance = cameras[ _currentCameraIndex ];
+        _currentCamera         = _currentCameraInstance.GetCamera();
 
-        transform.position = target.position;
-        // Setze die Kamera auf die gleiche Höhe wie das Ziel, aber mit einem festen Abstand
-        Camera  currentCamera = _currentCameraInstance.GetCamera();
-        Vector3 initPosition  = new( transform.position.x, transform.position.y, currentCamera.transform.position.z );
-        currentCamera.transform.position = Vector3.Lerp( currentCamera.transform.position, initPosition, followSpeed * Time.deltaTime );
+        // Aktiviere nur die aktuelle Kamera und deaktiviere die anderen
+        for ( int i = 0; i < cameras.Length; i++ ) { cameras[ i ].GetCamera().gameObject.SetActive( i == _currentCameraIndex ); }
+
+        // Initialisiere Kamera-Position
+        FollowTarget();
+        LookAtTarget();
     }
 
     private void Update()
     {
         // Wechsle die Kamera mit der Tab-Taste
         if ( !Input.GetKeyDown( KeyCode.Tab ) ) return;
-        int currentIndex = Array.IndexOf( cameras, _currentCameraInstance );
-        int nextIndex    = ( currentIndex + 1 ) % cameras.Length;
 
         // Deaktiviere die aktuelle Kamera und aktiviere die nächste
-        _currentCameraInstance.GetCamera().gameObject.SetActive( false );
-        _currentCameraInstance = cameras[ nextIndex ];
-        _currentCameraInstance.GetCamera().gameObject.SetActive( true );
+        _currentCamera.gameObject.SetActive( false );
+        _currentCameraIndex    = ( _currentCameraIndex + 1 ) % cameras.Length;
+        _currentCameraInstance = cameras[ _currentCameraIndex ];
+        _currentCamera         = _currentCameraInstance.GetCamera();
+        _currentCamera.gameObject.SetActive( true );
     }
 
     private void FixedUpdate()
     {
+        FollowTarget();
+        LookAtTarget();
+    }
+
+    private void FollowTarget()
+    {
+        if ( !target ) return;
+
         transform.position = target.position;
 
         // Wenn die Kamera statisch ist, soll sie sich nicht bewegen
         if ( _currentCameraInstance.IsStatic() ) return;
 
-        Camera  currentCamera   = _currentCameraInstance.GetCamera();
-        Vector3 desiredPosition = new( transform.position.x, transform.position.y, currentCamera.transform.position.z );
+        float   laziness        = _currentCameraInstance.Laziness;
+        Vector3 desiredPosition = new( transform.position.x, transform.position.y, _currentCamera.transform.position.z );
         // Bewege die Kamera sanft zur gewünschten Position
-        currentCamera.transform.position = Vector3.Lerp( currentCamera.transform.position, desiredPosition, followSpeed * Time.deltaTime );
+        _currentCamera.transform.position = Vector3.Lerp( _currentCamera.transform.position, desiredPosition, laziness * Time.deltaTime );
+    }
+
+    private void LookAtTarget()
+    {
+        if ( !target ) return;
+
+        // Wenn die Kamerarotation gesperrt ist, soll sie sich nicht drehen
+        if ( _currentCameraInstance.IsRotationLocked() ) return;
+
+        _currentCamera.transform.LookAt( target );
     }
 }
