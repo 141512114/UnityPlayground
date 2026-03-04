@@ -3,30 +3,37 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    public Transform playerTransform;
+    public Rigidbody playerRigidbody;
+
     public float moveSpeed = 5f;
+    public float jumpForce = 5f;
 
-    private InputAction moveAction;
+    private InputAction _moveAction;
 
-    void Start()
+    private void Start()
     {
-        if (playerTransform == null)
-        {
-            playerTransform = transform;
-        }
-
-        moveAction = InputSystem.actions.FindAction("Move");
-        moveAction.Enable();
+        _moveAction = InputSystem.actions.FindAction( "Move" );
+        _moveAction.Enable();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        Vector2 moveValue = moveAction.ReadValue<Vector2>();
+        var moveValue = _moveAction.ReadValue< Vector2 >();
 
-        if (moveAction.IsPressed() && moveValue != Vector2.zero)
+        if ( !_moveAction.IsPressed() || moveValue == Vector2.zero ) return;
+
+        // Horizontale Bewegung
+        float horizontalVelocity = moveValue.x * moveSpeed;
+
+        // Vertikale Bewegung
+        if ( moveValue.y > 0 ) // W - nach oben springen
         {
-            Vector3 moveDirection = new Vector3(moveValue.x, 0, moveValue.y);
-            playerTransform.Translate(moveDirection * Time.deltaTime * moveSpeed);
+            playerRigidbody.linearVelocity = new Vector3( horizontalVelocity, jumpForce, 0 );
         }
+        else if ( moveValue.y < 0 ) // S - nach unten drücken
+        {
+            playerRigidbody.linearVelocity = new Vector3( horizontalVelocity, -jumpForce, 0 );
+        }
+        else { playerRigidbody.linearVelocity = new Vector3( horizontalVelocity, playerRigidbody.linearVelocity.y, 0 ); }
     }
 }
