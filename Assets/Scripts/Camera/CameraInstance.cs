@@ -10,7 +10,12 @@ public class CameraInstance : MonoBehaviour
     {
         _camera = GetComponent< Camera >();
 
-        if ( profile == null ) { Debug.LogError( $"CameraInstance on {gameObject.name} has no CameraProfile assigned!", this ); }
+        if ( profile == null )
+        {
+             Debug.LogError( $"CameraInstance on {gameObject.name} has no CameraProfile assigned!", this );
+             enabled = false;
+             return;
+        }
     }
 
     public Camera GetCamera()        => _camera;

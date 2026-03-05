@@ -15,6 +15,12 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         _moveAction = InputSystem.actions.FindAction( "Move" );
+        if ( _moveAction == null )
+        {
+            Debug.LogError( "Move action not found in Input System." );
+            enabled = false;
+            return;
+        }
         _moveAction.Enable();
     }
 

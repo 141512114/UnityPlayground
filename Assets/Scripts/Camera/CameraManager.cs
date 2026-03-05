@@ -11,6 +11,13 @@ public class CameraManager : MonoBehaviour
 
     private void Start()
     {
+        if ( cameras.Length == 0 )
+        {
+            Debug.LogError( "No cameras assigned to CameraManager." );
+            enabled = false;
+            return;
+        }
+
         // Finde die aktive Kamera (erste oder Hauptkamera)
         _currentCameraIndex = 0;
         for ( int i = 0; i < cameras.Length; i++ )
