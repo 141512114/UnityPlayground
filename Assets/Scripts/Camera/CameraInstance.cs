@@ -1,26 +1,26 @@
 using UnityEngine;
 
-public class CameraInstance : MonoBehaviour
+namespace Camera
 {
-    [SerializeField] private CameraProfile profile;
-
-    private Camera _camera;
-
-    private void Start()
+    public class CameraInstance : MonoBehaviour
     {
-        _camera = GetComponent< Camera >();
+        [SerializeField] private CameraProfile profile;
 
-        if ( profile == null )
+        private UnityEngine.Camera _camera;
+
+        private void Start()
         {
-             Debug.LogError( $"CameraInstance on {gameObject.name} has no CameraProfile assigned!", this );
-             enabled = false;
-             return;
-        }
-    }
+            _camera = GetComponent< UnityEngine.Camera >();
 
-    public Camera GetCamera()        => _camera;
-    public bool   IsMainCamera()     => profile && profile.IsMain();
-    public bool   IsStatic()         => profile && profile.IsStatic();
-    public bool   IsRotationLocked() => profile && profile.IsRotationLocked();
-    public float  Laziness           => profile ? profile.Laziness : 0f;
+            if ( profile != null ) return;
+            Debug.LogError( $"CameraInstance on {gameObject.name} has no CameraProfile assigned!", this );
+            enabled = false;
+        }
+
+        public UnityEngine.Camera GetCamera()        => _camera;
+        public bool               IsMainCamera()     => profile && profile.IsMain();
+        public bool               IsStatic()         => profile && profile.IsStatic();
+        public bool               IsRotationLocked() => profile && profile.IsRotationLocked();
+        public float              Laziness           => profile ? profile.Laziness : 0f;
+    }
 }

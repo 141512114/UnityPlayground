@@ -1,6 +1,9 @@
 using UnityEngine;
 
-[CreateAssetMenu( fileName = "RoomProfile", menuName = "Room/Room Profile" )]
-public class RoomProfile : ScriptableObject
+namespace Room
 {
+    [CreateAssetMenu( fileName = "RoomProfile", menuName = "Room/Room Profile" )]
+    public class RoomProfile : ScriptableObject
+    {
+    }
 }

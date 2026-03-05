@@ -1,16 +1,16 @@
 using UnityEngine;
 
-public class RoomController : MonoBehaviour
+namespace Room
 {
-    [SerializeField] private RoomProfile roomProfile;
-
-    private void Start()
+    public class RoomController : MonoBehaviour
     {
-        if ( roomProfile == null )
+        [SerializeField] private RoomProfile roomProfile;
+
+        private void Start()
         {
+            if ( roomProfile != null ) return;
             Debug.LogError( "RoomController requires a RoomProfile reference." );
             enabled = false;
-            return;
         }
     }
 }

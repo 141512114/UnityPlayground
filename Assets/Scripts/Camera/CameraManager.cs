@@ -1,85 +1,88 @@
 using UnityEngine;
 
-public class CameraManager : MonoBehaviour
+namespace Camera
 {
-    public CameraInstance[] cameras;
-    public Transform        target;
-
-    private CameraInstance _currentCameraInstance;
-    private int            _currentCameraIndex;
-    private Camera         _currentCamera;
-
-    private void Start()
+    public class CameraManager : MonoBehaviour
     {
-        if ( cameras.Length == 0 )
+        public CameraInstance[] cameras;
+        public Transform        target;
+
+        private CameraInstance     _currentCameraInstance;
+        private int                _currentCameraIndex;
+        private UnityEngine.Camera _currentCamera;
+
+        private void Start()
         {
-            Debug.LogError( "No cameras assigned to CameraManager." );
-            enabled = false;
-            return;
+            if ( cameras.Length == 0 )
+            {
+                Debug.LogError( "No cameras assigned to CameraManager." );
+                enabled = false;
+                return;
+            }
+
+            // Finde die aktive Kamera (erste oder Hauptkamera)
+            _currentCameraIndex = 0;
+            for ( int i = 0; i < cameras.Length; i++ )
+            {
+                if ( !cameras[ i ].IsMainCamera() ) continue;
+                _currentCameraIndex = i;
+                break;
+            }
+
+            // Setze die aktuelle Kamera
+            _currentCameraInstance = cameras[ _currentCameraIndex ];
+            _currentCamera         = _currentCameraInstance.GetCamera();
+
+            // Aktiviere nur die aktuelle Kamera und deaktiviere die anderen
+            for ( int i = 0; i < cameras.Length; i++ ) { cameras[ i ].GetCamera().gameObject.SetActive( i == _currentCameraIndex ); }
+
+            // Initialisiere Kamera-Position
+            FollowTarget();
+            LookAtTarget();
         }
 
-        // Finde die aktive Kamera (erste oder Hauptkamera)
-        _currentCameraIndex = 0;
-        for ( int i = 0; i < cameras.Length; i++ )
+        private void Update()
         {
-            if ( !cameras[ i ].IsMainCamera() ) continue;
-            _currentCameraIndex = i;
-            break;
+            // Wechsle die Kamera mit der Tab-Taste
+            if ( !Input.GetKeyDown( KeyCode.Tab ) ) return;
+
+            // Deaktiviere die aktuelle Kamera und aktiviere die nächste
+            _currentCamera.gameObject.SetActive( false );
+            _currentCameraIndex    = ( _currentCameraIndex + 1 ) % cameras.Length;
+            _currentCameraInstance = cameras[ _currentCameraIndex ];
+            _currentCamera         = _currentCameraInstance.GetCamera();
+            _currentCamera.gameObject.SetActive( true );
         }
 
-        // Setze die aktuelle Kamera
-        _currentCameraInstance = cameras[ _currentCameraIndex ];
-        _currentCamera         = _currentCameraInstance.GetCamera();
+        private void FixedUpdate()
+        {
+            FollowTarget();
+            LookAtTarget();
+        }
 
-        // Aktiviere nur die aktuelle Kamera und deaktiviere die anderen
-        for ( int i = 0; i < cameras.Length; i++ ) { cameras[ i ].GetCamera().gameObject.SetActive( i == _currentCameraIndex ); }
+        private void FollowTarget()
+        {
+            if ( !target ) return;
 
-        // Initialisiere Kamera-Position
-        FollowTarget();
-        LookAtTarget();
-    }
+            transform.position = target.position;
 
-    private void Update()
-    {
-        // Wechsle die Kamera mit der Tab-Taste
-        if ( !Input.GetKeyDown( KeyCode.Tab ) ) return;
+            // Wenn die Kamera statisch ist, soll sie sich nicht bewegen
+            if ( _currentCameraInstance.IsStatic() ) return;
 
-        // Deaktiviere die aktuelle Kamera und aktiviere die nächste
-        _currentCamera.gameObject.SetActive( false );
-        _currentCameraIndex    = ( _currentCameraIndex + 1 ) % cameras.Length;
-        _currentCameraInstance = cameras[ _currentCameraIndex ];
-        _currentCamera         = _currentCameraInstance.GetCamera();
-        _currentCamera.gameObject.SetActive( true );
-    }
+            float   laziness        = _currentCameraInstance.Laziness;
+            Vector3 desiredPosition = new( transform.position.x, transform.position.y, _currentCamera.transform.position.z );
+            // Bewege die Kamera sanft zur gewünschten Position
+            _currentCamera.transform.position = Vector3.Lerp( _currentCamera.transform.position, desiredPosition, laziness * Time.deltaTime );
+        }
 
-    private void FixedUpdate()
-    {
-        FollowTarget();
-        LookAtTarget();
-    }
+        private void LookAtTarget()
+        {
+            if ( !target ) return;
 
-    private void FollowTarget()
-    {
-        if ( !target ) return;
+            // Wenn die Kamerarotation gesperrt ist, soll sie sich nicht drehen
+            if ( _currentCameraInstance.IsRotationLocked() ) return;
 
-        transform.position = target.position;
-
-        // Wenn die Kamera statisch ist, soll sie sich nicht bewegen
-        if ( _currentCameraInstance.IsStatic() ) return;
-
-        float   laziness        = _currentCameraInstance.Laziness;
-        Vector3 desiredPosition = new( transform.position.x, transform.position.y, _currentCamera.transform.position.z );
-        // Bewege die Kamera sanft zur gewünschten Position
-        _currentCamera.transform.position = Vector3.Lerp( _currentCamera.transform.position, desiredPosition, laziness * Time.deltaTime );
-    }
-
-    private void LookAtTarget()
-    {
-        if ( !target ) return;
-
-        // Wenn die Kamerarotation gesperrt ist, soll sie sich nicht drehen
-        if ( _currentCameraInstance.IsRotationLocked() ) return;
-
-        _currentCamera.transform.LookAt( target );
+            _currentCamera.transform.LookAt( target );
+        }
     }
 }
