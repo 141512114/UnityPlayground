@@ -846,6 +846,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1790650085}
   - component: {fileID: 1790650084}
+  - component: {fileID: 1790650086}
   m_Layer: 0
   m_Name: SceneController
   m_TagString: Untagged
@@ -875,6 +876,53 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.81633, y: 0.5, z: -0.24442}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1790650086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1790650083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea5345a06929e4768966f49a2e9bc14e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Scene.SceneManager
+  roomDatabases:
+  - {fileID: 11400000, guid: 34479af60e7c747cfa7abf7f2a0bfd83, type: 2}
+  loadPoints:
+  - {fileID: 2093605128}
+--- !u!1 &2093605127
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2093605128}
+  m_Layer: 0
+  m_Name: Loadpoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2093605128
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2093605127}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.81633, y: 0.5, z: 7.97}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -948,3 +996,4 @@ SceneRoots:
   - {fileID: 832575519}
   - {fileID: 7041005376620958068}
   - {fileID: 288908564}
+  - {fileID: 2093605128}
