@@ -1,3 +1,4 @@
+using Attributes;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,10 +12,17 @@ namespace Player
     {
         public new Rigidbody rigidbody;
 
-        public float moveSpeed          = 30f;
-        public float jumpForce          = 50f;
+        [Header( "Einstellungen" )]
+        [Label( "Bewegungsgeschwindigkeit" )]
+        public float moveSpeed = 30f;
+
+        [Label( "Sprungkraft" )] public float jumpForce = 50f;
+
+        [Label( "Maximale horizontale Geschwindigkeit", "Die maximale Geschwindigkeit, die der Spieler horizontal erreichen kann." )]
         public float maxHorizontalSpeed = 75f;
-        public float maxVerticalSpeed   = 75f;
+
+        [Label( "Maximale vertikale Geschwindigkeit", "Die maximale Geschwindigkeit, die der Spieler vertikal erreichen kann (z.B. beim Springen oder Fallen)." )]
+        public float maxVerticalSpeed = 75f;
 
         private InputAction _moveAction;
 

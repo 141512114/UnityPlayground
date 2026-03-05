@@ -1,3 +1,4 @@
+using Attributes;
 using UnityEngine;
 
 namespace Camera
@@ -8,7 +9,7 @@ namespace Camera
     [RequireComponent( typeof( UnityEngine.Camera ) )]
     public class CameraInstance : MonoBehaviour
     {
-        [SerializeField] private CameraProfile profile;
+        [SerializeField, Label( "Profil" )] private CameraProfile profile;
 
         private UnityEngine.Camera _camera;
 

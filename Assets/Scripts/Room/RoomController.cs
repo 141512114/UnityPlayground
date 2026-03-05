@@ -1,3 +1,4 @@
+using Attributes;
 using UnityEngine;
 
 namespace Room
@@ -7,13 +8,29 @@ namespace Room
     /// </summary>
     public class RoomController : MonoBehaviour
     {
-        [SerializeField] private RoomProfile roomProfile;
+        [SerializeField, Label("Profil")] private RoomProfile roomProfile;
 
         private void Start()
         {
-            if ( roomProfile != null ) return;
-            Debug.LogError( "RoomController requires a RoomProfile reference." );
-            enabled = false;
+            if ( roomProfile == null )
+            {
+                Debug.LogError( "RoomController requires a RoomProfile reference." );
+                enabled = false;
+                return;
+            }
+
+            ApplyColorToRoom();
+        }
+
+        /// <summary>
+        /// Färbt alle MeshRenderer im Raum mit der Farbe, die im RoomProfile definiert ist.
+        /// Dies ist ein einfaches Beispiel dafür, wie das RoomProfile verwendet werden kann, um die visuelle Darstellung des Raums zu steuern.
+        /// </summary>
+        private void ApplyColorToRoom()
+        {
+            // Lade alle Kinder des Raums, welche einen MeshRenderer haben, und setze deren Farbe basierend auf dem RoomProfile
+            var renderers = GetComponentsInChildren< MeshRenderer >();
+            foreach ( MeshRenderer renderer in renderers ) { renderer.material.color = roomProfile.roomColor; }
         }
     }
 }

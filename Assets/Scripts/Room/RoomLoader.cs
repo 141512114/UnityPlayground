@@ -4,16 +4,14 @@ using UnityEngine;
 namespace Room
 {
     /// <summary>
-    /// Lädt Räume aus RoomDatabases an vordefinierten Load Points.
+    /// Erlaubt das Laden von Räumen aus RoomDatabases auf vordefinierte Load Points.
     /// </summary>
     public class RoomLoader : MonoBehaviour
     {
         [SerializeField] private List< RoomDatabase > roomDatabases;
         [SerializeField] private List< Transform >    loadPoints;
 
-        private void Start() { LoadRooms(); }
-
-        private void LoadRooms()
+        public void LoadRooms()
         {
             if ( roomDatabases == null || roomDatabases.Count == 0 )
             {

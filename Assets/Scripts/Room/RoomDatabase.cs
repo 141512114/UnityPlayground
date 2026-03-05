@@ -11,6 +11,6 @@ namespace Room
     public class RoomDatabase : ScriptableObject
     {
         [SerializeField] private List< GameObject > rooms;
-        public List< GameObject > Rooms      => rooms;
+        public                   List< GameObject > Rooms => rooms;
     }
 }
