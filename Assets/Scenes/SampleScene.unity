@@ -412,8 +412,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   rigidbody: {fileID: 1009960772}
-  moveSpeed: 3
-  jumpForce: 5
+  moveSpeed: 30
+  jumpForce: 50
   maxHorizontalSpeed: 5
   maxVerticalSpeed: 5
 --- !u!4 &288908564
@@ -983,7 +983,6 @@ MonoBehaviour:
   - {fileID: 111716373}
   - {fileID: 330585548}
   target: {fileID: 1009960776}
-  followSpeed: 5
 --- !u!1 &1009960771
 GameObject:
   m_ObjectHideFlags: 0
