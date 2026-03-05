@@ -5,10 +5,10 @@ public class PlayerController : MonoBehaviour
 {
     public new Rigidbody rigidbody;
 
-    public float moveSpeed          = 5f;
-    public float jumpForce          = 5f;
-    public float maxHorizontalSpeed = 3f;
-    public float maxVerticalSpeed   = 5f;
+    public float moveSpeed          = 30f;
+    public float jumpForce          = 50f;
+    public float maxHorizontalSpeed = 75f;
+    public float maxVerticalSpeed   = 75f;
 
     private InputAction _moveAction;
 
@@ -25,16 +25,16 @@ public class PlayerController : MonoBehaviour
         if ( !_moveAction.IsPressed() || moveValue == Vector2.zero ) return;
 
         // Horizontale Bewegung (x-Achse)
-        rigidbody.AddForce( moveValue.x * moveSpeed, 0, 0, ForceMode.Impulse );
+        rigidbody.AddForce( moveValue.x * moveSpeed * Time.fixedDeltaTime, 0, 0, ForceMode.Impulse );
 
         // Vertikale Bewegung (y-Achse)
         if ( moveValue.y > 0 ) // W - nach oben springen
         {
-            rigidbody.AddForce( 0, jumpForce, 0, ForceMode.Impulse );
+            rigidbody.AddForce( 0, jumpForce * Time.fixedDeltaTime, 0, ForceMode.Impulse );
         }
         else if ( moveValue.y < 0 ) // S - nach unten drücken
         {
-            rigidbody.AddForce( 0, -jumpForce, 0, ForceMode.Impulse );
+            rigidbody.AddForce( 0, -jumpForce * Time.fixedDeltaTime, 0, ForceMode.Impulse );
         }
 
         // Velocity auf maximalen Wert begrenzen
