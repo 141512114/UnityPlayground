@@ -2,6 +2,10 @@ using UnityEngine;
 
 namespace Camera
 {
+    /// <summary>
+    /// Verwaltet mehrere Kameras in der Szene, ermöglicht das Umschalten zwischen ihnen
+    /// und steuert die Kamerabewegung und -rotation basierend auf einem Ziel (z.B. Spieler).
+    /// </summary>
     public class CameraManager : MonoBehaviour
     {
         public CameraInstance[] cameras;

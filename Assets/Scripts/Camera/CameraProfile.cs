@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace Camera
 {
+    /// <summary>
+    /// Definiert die Eigenschaften und Einstellungen einer Kamera, die von einem CameraManager verwendet werden können, um die Kameralogik zu steuern.
+    /// </summary>
     [CreateAssetMenu( fileName = "CameraProfile", menuName = "Camera/Camera Profile" )]
     public class CameraProfile : ScriptableObject
     {

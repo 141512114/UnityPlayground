@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace Room
 {
+    /// <summary>
+    /// Verwaltet die Logik und Interaktionen innerhalb eines Raums, basierend auf einem RoomProfile.
+    /// </summary>
     public class RoomController : MonoBehaviour
     {
         [SerializeField] private RoomProfile roomProfile;

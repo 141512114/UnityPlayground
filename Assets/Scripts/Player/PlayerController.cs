@@ -3,6 +3,10 @@ using UnityEngine.InputSystem;
 
 namespace Player
 {
+    /// <summary>
+    /// Steuert die Bewegung des Spielers basierend auf den Eingaben der WASD-Tasten.
+    /// Ermöglicht horizontale Bewegung und vertikales Springen/Drücken, während die Geschwindigkeit begrenzt wird.
+    /// </summary>
     public class PlayerController : MonoBehaviour
     {
         public new Rigidbody rigidbody;
