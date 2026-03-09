@@ -26,7 +26,11 @@ namespace Player
         private float _swingPower;
         private bool  _hasTouchedGround;
 
-        private void Awake() { _rigidbody = GetComponent< Rigidbody >(); }
+        private void Awake()
+        {
+            _rigidbody                        = GetComponent< Rigidbody >();
+            _rigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        }
 
         private void Update()
         {
@@ -50,7 +54,7 @@ namespace Player
             hitDirection.y = 0;
             hitDirection.Normalize();
 
-            _rigidbody.linearVelocity = hitDirection * ( swingForce * _swingPower );
+            _rigidbody.AddForce( hitDirection * ( swingForce * _swingPower ), ForceMode.Impulse );
 
             _canSwing         = false;
             _hasTouchedGround = false;
@@ -59,7 +63,13 @@ namespace Player
 
         private void OnCollisionStay( Collision collision )
         {
-            if ( !collision.gameObject.CompareTag( "Ground" ) ) return;
+            if ( !collision.gameObject.CompareTag( "Ground" ) )
+            {
+                _hasTouchedGround = false;
+                _canSwing         = false;
+                return;
+            }
+
             _hasTouchedGround = true;
             _canSwing         = true;
         }
