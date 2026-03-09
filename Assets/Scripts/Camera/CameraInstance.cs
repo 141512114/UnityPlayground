@@ -17,16 +17,15 @@ namespace Camera
         {
             get
             {
-                if (_camera == null)
-                    _camera = GetComponent<UnityEngine.Camera>();
+                if ( !_camera ) _camera = GetComponent< UnityEngine.Camera >();
 
                 return _camera;
             }
         }
 
-        public bool               IsMainCamera()     => profile && profile.IsMain();
-        public bool               IsStatic()         => profile && profile.IsStatic();
-        public bool               IsRotationLocked() => profile && profile.IsRotationLocked();
-        public float              Laziness           => profile ? profile.Laziness : 0f;
+        public bool  IsMainCamera()     => profile && profile.IsMain();
+        public bool  IsStatic()         => profile && profile.IsStatic();
+        public bool  IsRotationLocked() => profile && profile.IsRotationLocked();
+        public float Laziness           => profile ? profile.Laziness : 0f;
     }
 }

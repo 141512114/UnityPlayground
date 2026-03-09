@@ -11,8 +11,7 @@ namespace Room
     {
         [Header( "Allgemein" )] public new string name;
 
-        [Label( "Beschreibung" ), TextArea]
-        public string description;
+        [Label( "Beschreibung" ), TextArea] public string description;
 
         [Header( "Eigenschaften" )]
         [Label( "Raumfarbe" )]

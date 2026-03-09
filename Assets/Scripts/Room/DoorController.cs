@@ -10,10 +10,7 @@ namespace Room
     {
         public void DoAction()
         {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                gameObject.SetActive( false );
-            }
+            if ( Input.GetKeyDown( KeyCode.E ) ) { gameObject.SetActive( false ); }
         }
     }
 }

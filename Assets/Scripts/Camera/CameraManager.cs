@@ -17,10 +17,10 @@ namespace Camera
         [Label( "Ziel", "Der Transform, den die Kamera verfolgen soll (typischerweise der Spieler)." )]
         public Transform target;
 
-        [SerializeField, Label("Vertikaler Abstand", "Der Abstand, den die Kamera vertikal zum Ziel halten soll.")]
+        [SerializeField, Label( "Vertikaler Abstand", "Der Abstand, den die Kamera vertikal zum Ziel halten soll." )]
         private float verticalDistance = .5f;
 
-        [SerializeField, Label("Horizontaler Abstand", "Der Abstand, den die Kamera seitlich zum Ziel halten soll.")]
+        [SerializeField, Label( "Horizontaler Abstand", "Der Abstand, den die Kamera seitlich zum Ziel halten soll." )]
         private float horizontalDistance = -2f;
 
         private CameraInstance     _currentCameraInstance;
@@ -66,24 +66,25 @@ namespace Camera
             }
 
             // Aktiviere die aktuelle Kamera und deaktiviere alle anderen Kameras, um sicherzustellen, dass nur eine Kamera aktiv ist.
-            _currentCameraInstance  = cameras[ _currentCameraIndex ];
-            _currentCamera          = _currentCameraInstance?.Camera;
+            _currentCameraInstance = cameras[ _currentCameraIndex ];
+            _currentCamera         = _currentCameraInstance?.Camera;
             if ( _currentCameraInstance == null || _currentCamera == null )
             {
                 Debug.LogError( "CameraManager: Die aktuelle Kamera-Instanz oder die Kamera-Komponente ist null. Bitte überprüfen Sie die Kamerakonfiguration.", gameObject );
                 enabled = false;
                 return;
             }
+
             _currentCameraTransform = _currentCamera.transform;
             _currentCamera.gameObject.SetActive( true );
 
             // Deaktiviere alle anderen Kameras außer der aktuellen, um sicherzustellen, dass nur eine Kamera aktiv ist.
-            for (int i = 0; i < cameras.Length; i++)
+            for ( int i = 0; i < cameras.Length; i++ )
             {
-                if (i == _currentCameraIndex) continue;
+                if ( i == _currentCameraIndex ) continue;
 
-                var cam = cameras[i]?.Camera;
-                if (cam != null) cam.gameObject.SetActive(false);
+                var cam = cameras[ i ]?.Camera;
+                if ( cam != null ) cam.gameObject.SetActive( false );
             }
 
             SetupInitialCameraPosition();
@@ -115,16 +116,14 @@ namespace Camera
             _currentCamera          = _currentCameraInstance.Camera;
             _currentCameraTransform = _currentCamera.transform;
             _currentCamera.gameObject.SetActive( true );
-
-            Debug.Log( $"CameraManager: Kamera gewechselt zu Index {_currentCameraIndex}.", gameObject );
         }
 
         private void FollowTarget()
         {
-            if (!target || _currentCameraInstance == null || _currentCameraTransform == null)
+            if ( !target || !_currentCameraInstance || !_currentCameraTransform )
                 return;
 
-            if (_currentCameraInstance.IsStatic())
+            if ( _currentCameraInstance.IsStatic() )
                 return;
 
             transform.position = new Vector3( target.position.x, target.position.y + verticalDistance, target.position.z + horizontalDistance );
@@ -135,7 +134,7 @@ namespace Camera
 
         private void LookAtTarget()
         {
-            if ( !target || _currentCameraTransform == null || _currentCameraInstance == null )
+            if ( !target || !_currentCameraTransform || !_currentCameraInstance )
                 return;
 
             if ( _currentCameraInstance.IsRotationLocked() )

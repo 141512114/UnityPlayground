@@ -8,13 +8,13 @@ namespace Room
     /// </summary>
     public class RoomController : MonoBehaviour
     {
-        [SerializeField, Label("Profil")] private RoomProfile roomProfile;
+        [SerializeField, Label( "Profil" )] private RoomProfile roomProfile;
 
         private void Start()
         {
             if ( roomProfile == null )
             {
-                Debug.LogError( "RoomController requires a RoomProfile reference." );
+                Debug.LogError( "RoomController benötigt ein Raumprofil." );
                 enabled = false;
                 return;
             }

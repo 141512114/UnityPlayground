@@ -1,6 +1,5 @@
 using Common;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Player
 {
@@ -11,30 +10,11 @@ namespace Player
     [RequireComponent( typeof( PlayerController ) )]
     public class SimpleMovement : AbstractMovement
     {
-        private PlayerController playerController;
-
-        private InputAction _moveAction;
-
-        private void Awake()
-        {
-            playerController = GetComponent<PlayerController>();
-
-            _moveAction = InputSystem.actions.FindAction( "Move" );
-            if ( _moveAction == null )
-            {
-                Debug.LogError( "Input-Aktion Move nicht gefunden in Input System." );
-                enabled = false;
-                return;
-            }
-
-            _moveAction.Enable();
-        }
-
         public override void Move()
         {
-            var moveValue = _moveAction.ReadValue< Vector2 >();
+            var moveValue = moveAction.ReadValue< Vector2 >();
 
-            if ( !_moveAction.IsPressed() || moveValue == Vector2.zero ) return;
+            if ( !moveAction.IsPressed() || moveValue == Vector2.zero ) return;
 
             Vector3 moveVector = playerController.moveSpeed / 10 * Time.fixedDeltaTime * new Vector3( moveValue.x, 0, moveValue.y ).normalized;
 
@@ -43,7 +23,7 @@ namespace Player
 
         protected override void ClampVelocity()
         {
-            throw new System.NotImplementedException();
+            // SimpleMovement begrenzt Geschwindigkeit nicht (kinematische Bewegung)
         }
     }
 }

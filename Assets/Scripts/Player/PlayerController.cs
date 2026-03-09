@@ -1,5 +1,6 @@
 using Attributes;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Player
 {
@@ -7,14 +8,15 @@ namespace Player
     /// Steuert die Bewegung des Spielers basierend auf den Eingaben der WASD-Tasten.
     /// Ermöglicht horizontale Bewegung und vertikales Springen/Drücken, während die Geschwindigkeit begrenzt wird.
     /// </summary>
-    [RequireComponent( typeof( SimpleMovement ) ), RequireComponent( typeof( PlattformerMovement ) )]
+    [RequireComponent( typeof( SimpleMovement ) ), RequireComponent( typeof( PlatformerMovement ) )]
     public class PlayerController : MonoBehaviour
     {
         public new Rigidbody rigidbody;
 
+        [FormerlySerializedAs( "isPlattformer" )]
         [Header( "Einstellungen" )]
-        [Label("Plattformer-Modus", "Aktivieren, um vertikale Bewegungen (Springen/Drücken) zu ermöglichen. Deaktivieren für reine horizontale Bewegung.")]
-        public bool isPlattformer = false;
+        [Label( "Platformer-Modus", "Aktivieren, um vertikale Bewegungen (Springen/Drücken) zu ermöglichen. Deaktivieren für reine horizontale Bewegung." )]
+        public bool isPlatformer;
 
         [Label( "Bewegungsgeschwindigkeit" )] public float moveSpeed = 30f;
 
@@ -26,32 +28,23 @@ namespace Player
         [Label( "Maximale vertikale Geschwindigkeit", "Die maximale Geschwindigkeit, die der Spieler vertikal erreichen kann (z.B. beim Springen oder Fallen)." )]
         public float maxVerticalSpeed = 75f;
 
-        private SimpleMovement _simpleMovement;
-        private PlattformerMovement _plattformerMovement;
+        private SimpleMovement     _simpleMovement;
+        private PlatformerMovement _platformerMovement;
 
         private void Awake()
         {
-            _simpleMovement = GetComponent<SimpleMovement>();
-            _plattformerMovement = GetComponent<PlattformerMovement>();
+            _simpleMovement     = GetComponent< SimpleMovement >();
+            _platformerMovement = GetComponent< PlatformerMovement >();
 
-            if ( _simpleMovement == null && _plattformerMovement == null )
-            {
-                Debug.LogError( "Neither SimpleMovement nor PlattformerMovement component found on PlayerController GameObject." );
-                enabled = false;
-                return;
-            }
+            if ( _simpleMovement != null || _platformerMovement != null ) return;
+            Debug.LogError( "Neither SimpleMovement nor PlatformerMovement component found on PlayerController GameObject." );
+            enabled = false;
         }
 
         private void FixedUpdate()
         {
-            if ( isPlattformer )
-            {
-                _plattformerMovement.Move();
-            }
-            else
-            {
-                _simpleMovement.Move();
-            }
+            if ( isPlatformer ) { _platformerMovement.Move(); }
+            else { _simpleMovement.Move(); }
         }
     }
 }

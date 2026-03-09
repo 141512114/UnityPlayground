@@ -15,7 +15,7 @@ namespace Room
         {
             if ( roomDatabases == null || roomDatabases.Count == 0 )
             {
-                Debug.LogWarning( "No room databases assigned to RoomLoader." );
+                Debug.LogWarning( "RoomLoader: Es gibt keine Raumdatenbank." );
                 enabled = false;
                 return;
             }
@@ -27,28 +27,19 @@ namespace Room
         {
             if ( database?.Rooms == null || database.Rooms.Count == 0 )
             {
-                Debug.LogWarning( $"RoomDatabase at index {databaseIndex} has no rooms assigned." );
+                Debug.LogWarning( $"RoomLoader: Raumdatenbank mit Index {databaseIndex} besitzt keine Räume." );
                 return;
             }
 
-            for ( int roomIndex = 0; roomIndex < database.Rooms.Count; roomIndex++ ) { LoadRoom( database.Rooms[ roomIndex ], roomIndex, databaseIndex ); }
+            for ( int roomIndex = 0; roomIndex < database.Rooms.Count; roomIndex++ ) { LoadRoom( database.Rooms[ roomIndex ], roomIndex ); }
         }
 
-        private void LoadRoom( GameObject roomPrefab, int roomIndex, int databaseIndex )
+        private void LoadRoom( GameObject roomPrefab, int roomIndex )
         {
-            if ( roomPrefab == null )
-            {
-                Debug.LogWarning( $"Room prefab at index {roomIndex} in database {databaseIndex} is null." );
-                return;
-            }
+            if ( roomPrefab == null ) return;
 
             Transform loadPoint = GetLoadPoint( roomIndex );
-            if ( loadPoint == null )
-            {
-                Debug.LogWarning( $"No load point assigned for room {roomIndex} in database {databaseIndex}. Using world origin." );
-                Instantiate( roomPrefab, Vector3.zero, Quaternion.identity );
-            }
-            else { Instantiate( roomPrefab, loadPoint.position, Quaternion.identity ); }
+            Instantiate( roomPrefab, loadPoint == null ? Vector3.zero : loadPoint.position, Quaternion.identity );
         }
 
         private Transform GetLoadPoint( int index ) { return index < loadPoints.Count ? loadPoints[ index ] : null; }

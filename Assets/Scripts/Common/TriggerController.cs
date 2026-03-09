@@ -11,17 +11,11 @@ namespace Common
 
         private IActioner Actioner => actioner as IActioner;
 
-        void OnTriggerEnter(Collider other)
-        {
-            Debug.Log("Player entered the door trigger.");
-        }
+        void OnTriggerEnter( Collider other ) { Debug.Log( "Player entered the door trigger." ); }
 
-        void OnTriggerStay(Collider other)
+        void OnTriggerStay( Collider other )
         {
-            if (other.CompareTag("Player"))
-            {
-                Actioner?.DoAction();
-            }
+            if ( other.CompareTag( "Player" ) ) { Actioner?.DoAction(); }
         }
     }
 }

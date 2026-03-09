@@ -3,14 +3,15 @@ using UnityEngine;
 
 namespace Scene
 {
+    /// <summary>
+    /// Kontrolliert die Szene, indem er Räume basierend auf den Einstellungen der RoomLoader-Komponente lädt, die auf demselben GameObject vorhanden sein muss.
+    /// Stellt sicher, dass die Räume korrekt geladen werden, wenn die Szene gestartet wird.
+    /// </summary>
     public class SceneController : MonoBehaviour
     {
         private RoomLoader _loader;
 
-        private void Start()
-        {
-            LoadRooms();
-        }
+        private void Start() { LoadRooms(); }
 
         /// <summary>
         /// Lädt Räume basierend auf den Einstellungen der RoomLoader-Komponente, die auf demselben GameObject vorhanden sein muss.
@@ -20,7 +21,7 @@ namespace Scene
             GetRoomLoader();
             _loader.LoadRooms();
         }
-        
+
         /// <summary>
         /// Sucht nach einem RoomLoader-Komponente auf demselben GameObject und speichert eine Referenz darauf.
         /// </summary>

@@ -1,4 +1,6 @@
+using Player;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Common
 {
@@ -8,6 +10,24 @@ namespace Common
     /// </summary>
     public abstract class AbstractMovement : MonoBehaviour
     {
+        protected PlayerController playerController;
+        protected InputAction      moveAction;
+
+        protected virtual void Awake()
+        {
+            playerController = GetComponent< PlayerController >();
+
+            moveAction = InputSystem.actions.FindAction( "Move" );
+            if ( moveAction == null )
+            {
+                Debug.LogError( "AbstractMovement: Input-Aktion 'Move' nicht gefunden im Input System." );
+                enabled = false;
+                return;
+            }
+
+            moveAction.Enable();
+        }
+
         /// <summary>
         /// Führt die Bewegung basierend auf den Eingaben oder der Logik der konkreten Bewegungsart aus.
         /// </summary>

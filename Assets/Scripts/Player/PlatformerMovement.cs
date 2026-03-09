@@ -1,41 +1,21 @@
 using Common;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Player
 {
     /// <summary>
     /// Steuert die Bewegung des Spielers basierend auf den Eingaben der WASD-Tasten.
     /// Ermöglicht horizontale Bewegung und vertikales Springen/Drücken, während
-    /// die Geschwindigkeit begrenzt wird. Der Plattformer-Modus kann aktiviert werden, um vertikale Bewegungen zu ermöglichen.
+    /// die Geschwindigkeit begrenzt wird. Der Platform-Modus kann aktiviert werden, um vertikale Bewegungen zu ermöglichen.
     /// </summary>
     [RequireComponent( typeof( PlayerController ) )]
-    public class PlattformerMovement : AbstractMovement
+    public class PlatformerMovement : AbstractMovement
     {
-        private PlayerController playerController;
-
-        private InputAction _moveAction;
-
-        private void Awake()
-        {
-            playerController = GetComponent<PlayerController>();
-
-            _moveAction = InputSystem.actions.FindAction( "Move" );
-            if ( _moveAction == null )
-            {
-                Debug.LogError( "Input-Aktion Move nicht gefunden in Input System." );
-                enabled = false;
-                return;
-            }
-
-            _moveAction.Enable();
-        }
-
         public override void Move()
         {
-            var moveValue = _moveAction.ReadValue< Vector2 >();
+            var moveValue = moveAction.ReadValue< Vector2 >();
 
-            if ( !_moveAction.IsPressed() || moveValue == Vector2.zero ) return;
+            if ( !moveAction.IsPressed() || moveValue == Vector2.zero ) return;
 
             // Horizontale Bewegung (x-Achse)
             playerController.rigidbody.AddForce( moveValue.x * playerController.moveSpeed * Time.fixedDeltaTime, 0, 0, ForceMode.Impulse );
