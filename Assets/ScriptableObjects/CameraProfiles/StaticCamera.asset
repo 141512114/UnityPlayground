@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 792db393ea454b04a5bf6f873c080fa1, type: 3}
-  m_Name: RotateCameraWithMouse
-  m_EditorClassIdentifier: Assembly-CSharp::Camera.CameraProfile
-  isMainCamera: 1
-  rotateWithMouse: 1
-  lockPosition: 0
+  m_Name: StaticCamera
+  m_EditorClassIdentifier: Assembly-CSharp::CameraProfile
+  isMainCamera: 0
+  rotateWithMouse: 0
+  lockPosition: 1
   lockRotation: 0
-  laziness: 5
+  laziness: 0.5

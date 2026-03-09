@@ -17,21 +17,31 @@ namespace Camera
         [Label( "Ziel", "Der Transform, den die Kamera verfolgen soll (typischerweise der Spieler)." )]
         public Transform target;
 
+        [Header( "Kameraeinstellungen" )]
         [SerializeField, Label( "Vertikaler Abstand", "Der Abstand, den die Kamera vertikal zum Ziel halten soll." )]
         private float verticalDistance = .5f;
 
         [SerializeField, Label( "Horizontaler Abstand", "Der Abstand, den die Kamera seitlich zum Ziel halten soll." )]
         private float horizontalDistance = -2f;
 
-        [Label( "Maussensibilität" )] public float sensitivity = 3f;
+        [SerializeField, Label( "Minimale Kameradistanz", "Der minimale Abstand, den die Kamera zum Ziel haben darf, um Kollisionen zu vermeiden." )]
+        private float minDistance = 1f;
+
+        [Header( "Maussteuerung" )]
+        [Label( "Maussensibilität" )]
+        public float sensitivity = 3f;
+
+        [Label( "Kamerakollisionsradius", "Der Radius der Kugel, die für die Kollisionsprüfung verwendet wird, um zu verhindern, dass die Kamera durch Wände geht." )]
+        public float cameraRadius = 0.3f;
 
         private CameraInstance     _currentCameraInstance;
         private int                _currentCameraIndex;
         private UnityEngine.Camera _currentCamera;
         private Transform          _currentCameraTransform;
 
-        private float _yaw;
-        private float _pitch;
+        private float   _yaw;
+        private float   _pitch;
+        private Vector3 _cameraVelocity;
 
         private void Awake()
         {
@@ -45,7 +55,7 @@ namespace Camera
             if ( target == null ) { Debug.LogWarning( "CameraManager: Kein Ziel (target) zugewiesen. Die Kamera wird sich nicht bewegen.", gameObject ); }
 
             InitializeCameras();
-            
+
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible   = false;
         }
@@ -144,10 +154,15 @@ namespace Camera
             if ( _currentCameraInstance.IsStatic() )
                 return;
 
-            transform.position = new Vector3( target.position.x, target.position.y + verticalDistance, target.position.z + horizontalDistance );
+            // Wenn Mausrotation aktiv ist, übernimmt RotateWithMouse die Position
+            if ( _currentCameraInstance.RotateWithMouse() )
+                return;
 
-            float laziness = _currentCameraInstance.Laziness;
-            _currentCameraTransform.position = Vector3.Lerp( _currentCameraTransform.position, transform.position, laziness * Time.deltaTime );
+            float smoothY = Mathf.Lerp( _currentCameraTransform.position.y, target.position.y + verticalDistance, 5f * Time.deltaTime );
+            transform.position = new Vector3( target.position.x, smoothY, target.position.z + horizontalDistance );
+
+            _currentCameraTransform.position =
+                Vector3.SmoothDamp( _currentCameraTransform.position, transform.position, ref _cameraVelocity, _currentCameraInstance.Laziness * Time.deltaTime );
         }
 
         private void LookAtTarget()
@@ -158,7 +173,18 @@ namespace Camera
             if ( _currentCameraInstance.IsRotationLocked() )
                 return;
 
-            _currentCameraTransform.LookAt( target );
+            LookAtSlerp();
+        }
+
+        /// <summary>
+        /// Slerpt die Rotation der Kamera, um sanft auf das Ziel zu schauen,
+        /// basierend auf der "Laziness"-Einstellung der Kamera. Je höher die Laziness, desto langsamer dreht sich die Kamera zum Ziel.
+        /// </summary>
+        private void LookAtSlerp()
+        {
+            Quaternion targetRotation = Quaternion.LookRotation( target.position - _currentCameraTransform.position );
+            _currentCameraTransform.rotation =
+                Quaternion.Slerp( _currentCameraTransform.rotation, targetRotation, _currentCameraInstance.Laziness * 10 * Time.deltaTime );
         }
 
         private void RotateWithMouse()
@@ -171,15 +197,37 @@ namespace Camera
 
             _yaw   += mouseX;
             _pitch -= mouseY;
-
-            _pitch = Mathf.Clamp( _pitch, -40f, 80f );
+            _pitch =  Mathf.Clamp( _pitch, -40f, 80f );
 
             Quaternion rotation = Quaternion.Euler( _pitch, _yaw, 0 );
 
-            Vector3 offset = rotation * new Vector3( 0, 0, -horizontalDistance );
+            Vector3 dir             = rotation * Vector3.back;
+            Vector3 desiredPosition = target.position + dir * horizontalDistance;
 
-            _currentCameraTransform.position = target.position + offset;
-            _currentCameraTransform.LookAt( target );
+            HandleCollision( target.position, desiredPosition );
+
+            LookAtSlerp();
+        }
+
+        /// <summary>
+        /// Überprüft, ob die gewünschte Kameraposition eine Kollision mit der Umgebung verursachen würde,
+        /// und korrigiert die Position entsprechend, um zu verhindern, dass die Kamera durch Wände oder andere Hindernisse geht.
+        /// </summary>
+        /// <param name="targetPos"></param>
+        /// <param name="desiredPos"></param>
+        private void HandleCollision( Vector3 targetPos, Vector3 desiredPos )
+        {
+            Vector3 dir  = ( desiredPos - targetPos ).normalized;
+            float   dist = Vector3.Distance( targetPos, desiredPos );
+
+            if ( Physics.SphereCast( targetPos, cameraRadius, dir, out RaycastHit hit, dist ) )
+            {
+                float correctedDist = Mathf.Clamp( hit.distance - cameraRadius, minDistance, Mathf.Abs( horizontalDistance ) );
+                _currentCameraTransform.position = targetPos + dir * correctedDist;
+                return;
+            }
+
+            _currentCameraTransform.position = desiredPos;
         }
     }
 }

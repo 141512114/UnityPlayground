@@ -333,7 +333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 195a4dc8a4bc0f14ea851605d6a1de67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player.GolfBallMovement
-  swingForce: 50
+  swingForce: 135
   frictionDamping: 0.05
   minVelocity: 0.1
 --- !u!54 &223421138
@@ -570,6 +570,9 @@ MonoBehaviour:
   target: {fileID: 223421133}
   verticalDistance: 1
   horizontalDistance: -4
+  minDistance: 1
+  sensitivity: 3
+  cameraRadius: 0.3
 --- !u!1 &339511217
 GameObject:
   m_ObjectHideFlags: 0

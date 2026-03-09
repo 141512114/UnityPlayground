@@ -1,3 +1,4 @@
+using Attributes;
 using UnityEngine;
 
 namespace Camera
@@ -8,12 +9,20 @@ namespace Camera
     [CreateAssetMenu( fileName = "CameraProfile", menuName = "Camera/Camera Profile" )]
     public class CameraProfile : ScriptableObject
     {
-        [SerializeField] private bool isMainCamera;
-        [SerializeField] private bool rotateWithMouse;
-        [SerializeField] private bool lockPosition;
-        [SerializeField] private bool lockRotation;
+        [SerializeField, Label( "Hauptkamera" )]
+        private bool isMainCamera;
 
-        [SerializeField] private float laziness = 5f;
+        [SerializeField, Label( "Mausrotation erlauben" )]
+        private bool rotateWithMouse;
+
+        [SerializeField, Label( "Position sperren" )]
+        private bool lockPosition;
+
+        [SerializeField, Label( "Rotation sperren" )]
+        private bool lockRotation;
+
+        [SerializeField, Label( "Trägheit" ), Range( 0f, 1f )]
+        private float laziness = .5f;
 
         public bool  IsMain()           => isMainCamera;
         public bool  RotateWithMouse()  => rotateWithMouse;

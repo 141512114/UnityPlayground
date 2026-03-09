@@ -9,8 +9,8 @@ namespace Attributes
 
         public LabelAttribute( string label )
         {
-            this.label       = label;
-            this.description = "";
+            this.label  = label;
+            description = "";
         }
 
         public LabelAttribute( string label, string description )
