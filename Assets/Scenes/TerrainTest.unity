@@ -676,7 +676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dfa044ec9be698439eb794e983f144f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Camera.CameraInstance
-  profile: {fileID: 11400000, guid: 40120fbc523cf6145964fbbe8d601e23, type: 2}
+  profile: {fileID: 11400000, guid: cdcba376098c7694394fbc99f0b0be09, type: 2}
 --- !u!114 &339511222
 MonoBehaviour:
   m_ObjectHideFlags: 0

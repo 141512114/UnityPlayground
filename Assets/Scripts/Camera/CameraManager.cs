@@ -23,10 +23,15 @@ namespace Camera
         [SerializeField, Label( "Horizontaler Abstand", "Der Abstand, den die Kamera seitlich zum Ziel halten soll." )]
         private float horizontalDistance = -2f;
 
+        [Label( "Maussensibilität" )] public float sensitivity = 3f;
+
         private CameraInstance     _currentCameraInstance;
         private int                _currentCameraIndex;
         private UnityEngine.Camera _currentCamera;
         private Transform          _currentCameraTransform;
+
+        private float _yaw;
+        private float _pitch;
 
         private void Awake()
         {
@@ -40,9 +45,22 @@ namespace Camera
             if ( target == null ) { Debug.LogWarning( "CameraManager: Kein Ziel (target) zugewiesen. Die Kamera wird sich nicht bewegen.", gameObject ); }
 
             InitializeCameras();
+            
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible   = false;
         }
 
-        private void Update() { HandleCameraSwitching(); }
+        private void Update()
+        {
+            if ( Input.GetKeyDown( KeyCode.Escape ) )
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible   = true;
+            }
+
+            HandleCameraSwitching();
+            RotateWithMouse();
+        }
 
         private void LateUpdate()
         {
@@ -140,6 +158,27 @@ namespace Camera
             if ( _currentCameraInstance.IsRotationLocked() )
                 return;
 
+            _currentCameraTransform.LookAt( target );
+        }
+
+        private void RotateWithMouse()
+        {
+            if ( !_currentCameraInstance.RotateWithMouse() )
+                return;
+
+            float mouseX = Input.GetAxis( "Mouse X" ) * sensitivity;
+            float mouseY = Input.GetAxis( "Mouse Y" ) * sensitivity;
+
+            _yaw   += mouseX;
+            _pitch -= mouseY;
+
+            _pitch = Mathf.Clamp( _pitch, -40f, 80f );
+
+            Quaternion rotation = Quaternion.Euler( _pitch, _yaw, 0 );
+
+            Vector3 offset = rotation * new Vector3( 0, 0, -horizontalDistance );
+
+            _currentCameraTransform.position = target.position + offset;
             _currentCameraTransform.LookAt( target );
         }
     }

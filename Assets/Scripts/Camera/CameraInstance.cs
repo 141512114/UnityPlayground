@@ -24,6 +24,7 @@ namespace Camera
         }
 
         public bool  IsMainCamera()     => profile && profile.IsMain();
+        public bool  RotateWithMouse()  => profile && profile.RotateWithMouse();
         public bool  IsStatic()         => profile && profile.IsStatic();
         public bool  IsRotationLocked() => profile && profile.IsRotationLocked();
         public float Laziness           => profile ? profile.Laziness : 0f;
