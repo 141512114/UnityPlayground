@@ -607,6 +607,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1790650085}
   - component: {fileID: 1790650084}
+  - component: {fileID: 1790650086}
   m_Layer: 0
   m_Name: SceneController
   m_TagString: Untagged

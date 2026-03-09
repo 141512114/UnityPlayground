@@ -1,22 +1,36 @@
+using Room;
 using UnityEngine;
 
-public class SceneController : MonoBehaviour
+namespace Scene
 {
-    private SceneManager _sceneManager;
-
-    private void Awake()
+    public class SceneController : MonoBehaviour
     {
-        // Stelle sicher, dass der SceneManager in der Szene vorhanden ist
-        if ( SceneManager.Instance == null )
+        private RoomLoader _loader;
+
+        private void Start()
         {
-            Debug.LogError( "SceneManager instance not found. Please ensure a SceneManager is present in the scene." );
-            enabled = false;
-            return;
+            LoadRooms();
         }
-    }
 
-    private void Start()
-    {
-        _sceneManager = SceneManager.Instance;
+        /// <summary>
+        /// Lädt Räume basierend auf den Einstellungen der RoomLoader-Komponente, die auf demselben GameObject vorhanden sein muss.
+        /// </summary>
+        private void LoadRooms()
+        {
+            GetRoomLoader();
+            _loader.LoadRooms();
+        }
+        
+        /// <summary>
+        /// Sucht nach einem RoomLoader-Komponente auf demselben GameObject und speichert eine Referenz darauf.
+        /// </summary>
+        private void GetRoomLoader()
+        {
+            if ( _loader != null ) return;
+            _loader = GetComponent< RoomLoader >();
+            if ( _loader != null ) return;
+            Debug.LogError( "SceneController requires a RoomLoader component on the same GameObject." );
+            enabled = false;
+        }
     }
 }
