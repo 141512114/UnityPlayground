@@ -36,31 +36,14 @@ namespace Player
 
             if ( !_moveAction.IsPressed() || moveValue == Vector2.zero ) return;
 
-            // Horizontale Bewegung (x-Achse)
-            playerController.rigidbody.AddForce( moveValue.x * playerController.moveSpeed * Time.fixedDeltaTime, 0, 0, ForceMode.Impulse );
-            // Tiefenbewegung (z-Achse)
-            playerController.rigidbody.AddForce( 0, 0, moveValue.y * playerController.moveSpeed * Time.fixedDeltaTime, ForceMode.Impulse );
+            Vector3 moveVector = playerController.moveSpeed / 10 * Time.fixedDeltaTime * new Vector3( moveValue.x, 0, moveValue.y ).normalized;
 
-            ClampVelocity();
+            playerController.transform.Translate( moveVector, Space.World );
         }
 
         protected override void ClampVelocity()
         {
-            var velocity = playerController.rigidbody.linearVelocity;
-
-            // Horizontale Geschwindigkeit limitieren
-            float horizontalSpeed = new Vector2( velocity.x, velocity.z ).magnitude;
-            if ( horizontalSpeed > playerController.maxHorizontalSpeed )
-            {
-                float ratio = playerController.maxHorizontalSpeed / horizontalSpeed;
-                velocity.x *= ratio;
-                velocity.z *= ratio;
-            }
-
-            // Vertikale Geschwindigkeit limitieren
-            velocity.y = Mathf.Clamp( velocity.y, -playerController.maxVerticalSpeed, playerController.maxVerticalSpeed );
-
-            playerController.rigidbody.linearVelocity = velocity;
+            throw new System.NotImplementedException();
         }
     }
 }
