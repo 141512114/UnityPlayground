@@ -13,16 +13,17 @@ namespace Camera
 
         private UnityEngine.Camera _camera;
 
-        private void Start()
+        public UnityEngine.Camera Camera
         {
-            _camera = GetComponent< UnityEngine.Camera >();
+            get
+            {
+                if (_camera == null)
+                    _camera = GetComponent<UnityEngine.Camera>();
 
-            if ( profile != null ) return;
-            Debug.LogError( $"CameraInstance on {gameObject.name} has no CameraProfile assigned!", this );
-            enabled = false;
+                return _camera;
+            }
         }
 
-        public UnityEngine.Camera GetCamera()        => _camera;
         public bool               IsMainCamera()     => profile && profile.IsMain();
         public bool               IsStatic()         => profile && profile.IsStatic();
         public bool               IsRotationLocked() => profile && profile.IsRotationLocked();

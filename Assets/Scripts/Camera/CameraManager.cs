@@ -28,7 +28,7 @@ namespace Camera
         private UnityEngine.Camera _currentCamera;
         private Transform          _currentCameraTransform;
 
-        private void Start()
+        private void Awake()
         {
             if ( cameras == null || cameras.Length == 0 )
             {
@@ -44,7 +44,7 @@ namespace Camera
 
         private void Update() { HandleCameraSwitching(); }
 
-        private void FixedUpdate()
+        private void LateUpdate()
         {
             FollowTarget();
             LookAtTarget();
@@ -55,20 +55,7 @@ namespace Camera
         /// </summary>
         private void InitializeCameras()
         {
-            FindMainCamera();
-            SetupCurrentCamera();
-
-            // Deaktiviere alle anderen Kameras außer der aktuellen, um sicherzustellen, dass nur eine Kamera aktiv ist.
-            for ( int i = 0; i < cameras.Length; i++ )
-            {
-                if ( i != _currentCameraIndex ) { cameras[ i ].GetCamera().gameObject.SetActive( false ); }
-            }
-
-            SetupInitialCameraPosition();
-        }
-
-        private void FindMainCamera()
-        {
+            // Standardmäßig die erste Kamera in der Liste als aktive Kamera setzen, es sei denn, eine andere Kamera ist als Hauptkamera markiert.
             _currentCameraIndex = 0;
 
             for ( int i = 0; i < cameras.Length; i++ )
@@ -77,18 +64,29 @@ namespace Camera
                 _currentCameraIndex = i;
                 break;
             }
-        }
 
-        /// <summary>
-        /// Richtet die aktuelle Kamera ein.
-        /// </summary>
-        private void SetupCurrentCamera()
-        {
+            // Aktiviere die aktuelle Kamera und deaktiviere alle anderen Kameras, um sicherzustellen, dass nur eine Kamera aktiv ist.
             _currentCameraInstance  = cameras[ _currentCameraIndex ];
-            _currentCamera          = _currentCameraInstance.GetCamera();
+            _currentCamera          = _currentCameraInstance?.Camera;
+            if ( _currentCameraInstance == null || _currentCamera == null )
+            {
+                Debug.LogError( "CameraManager: Die aktuelle Kamera-Instanz oder die Kamera-Komponente ist null. Bitte überprüfen Sie die Kamerakonfiguration.", gameObject );
+                enabled = false;
+                return;
+            }
             _currentCameraTransform = _currentCamera.transform;
-
             _currentCamera.gameObject.SetActive( true );
+
+            // Deaktiviere alle anderen Kameras außer der aktuellen, um sicherzustellen, dass nur eine Kamera aktiv ist.
+            for (int i = 0; i < cameras.Length; i++)
+            {
+                if (i == _currentCameraIndex) continue;
+
+                var cam = cameras[i]?.Camera;
+                if (cam != null) cam.gameObject.SetActive(false);
+            }
+
+            SetupInitialCameraPosition();
         }
 
         private void SetupInitialCameraPosition()
@@ -114,7 +112,7 @@ namespace Camera
             _currentCamera.gameObject.SetActive( false );
             _currentCameraIndex     = ( _currentCameraIndex + 1 ) % cameras.Length;
             _currentCameraInstance  = cameras[ _currentCameraIndex ];
-            _currentCamera          = _currentCameraInstance.GetCamera();
+            _currentCamera          = _currentCameraInstance.Camera;
             _currentCameraTransform = _currentCamera.transform;
             _currentCamera.gameObject.SetActive( true );
 
@@ -123,7 +121,11 @@ namespace Camera
 
         private void FollowTarget()
         {
-            if ( !target || _currentCameraInstance.IsStatic() ) return;
+            if (!target || _currentCameraInstance == null || _currentCameraTransform == null)
+                return;
+
+            if (_currentCameraInstance.IsStatic())
+                return;
 
             transform.position = new Vector3( target.position.x, target.position.y + verticalDistance, target.position.z + horizontalDistance );
 
@@ -133,7 +135,12 @@ namespace Camera
 
         private void LookAtTarget()
         {
-            if ( !target || _currentCameraInstance.IsRotationLocked() ) return;
+            if ( !target || _currentCameraTransform == null || _currentCameraInstance == null )
+                return;
+
+            if ( _currentCameraInstance.IsRotationLocked() )
+                return;
+
             _currentCameraTransform.LookAt( target );
         }
     }

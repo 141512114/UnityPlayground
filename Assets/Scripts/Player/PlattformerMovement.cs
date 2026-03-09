@@ -23,7 +23,7 @@ namespace Player
             _moveAction = InputSystem.actions.FindAction( "Move" );
             if ( _moveAction == null )
             {
-                Debug.LogError( "Move action not found in Input System." );
+                Debug.LogError( "Input-Aktion Move nicht gefunden in Input System." );
                 enabled = false;
                 return;
             }
