@@ -1,14 +1,19 @@
+using Common;
 using UnityEngine;
 
-public class DoorController : MonoBehaviour
+namespace Room
 {
-    [SerializeField] private new BoxCollider collider;
-
-    void OnTriggerEnter(Collider other)
+    /// <summary>
+    /// Steuert die Interaktion mit Triggern in einem Raum, z.B. das Öffnen von Türen.
+    /// </summary>
+    public class DoorController : MonoBehaviour, IActioner
     {
-        if (other.CompareTag("Player"))
+        public void DoAction()
         {
-            gameObject.SetActive(false);
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                gameObject.SetActive( false );
+            }
         }
     }
 }
