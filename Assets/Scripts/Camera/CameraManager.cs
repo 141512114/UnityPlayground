@@ -10,12 +10,18 @@ namespace Camera
     public class CameraManager : MonoBehaviour
     {
         /// <summary>Array der verfügbaren Kamera-Instanzen in der Szene.</summary>
-        [SerializeField, Tooltip( "Liste aller Kameras, die von diesem Manager verwaltet werden." )]
+        [Tooltip( "Liste aller Kameras, die von diesem Manager verwaltet werden." )]
         public CameraInstance[] cameras;
 
         /// <summary>Das Ziel, das die Kamera verfolgen soll (z.B. der Spieler).</summary>
-        [SerializeField, Label( "Ziel", "Der Transform, den die Kamera verfolgen soll (typischerweise der Spieler)." )]
+        [Label( "Ziel", "Der Transform, den die Kamera verfolgen soll (typischerweise der Spieler)." )]
         public Transform target;
+
+        [SerializeField, Label("Vertikaler Abstand", "Der Abstand, den die Kamera vertikal zum Ziel halten soll.")]
+        private float verticalDistance = .5f;
+
+        [SerializeField, Label("Horizontaler Abstand", "Der Abstand, den die Kamera seitlich zum Ziel halten soll.")]
+        private float horizontalDistance = -2f;
 
         private CameraInstance     _currentCameraInstance;
         private int                _currentCameraIndex;
@@ -117,16 +123,12 @@ namespace Camera
 
         private void FollowTarget()
         {
-            if ( !target ) return;
+            if ( !target || _currentCameraInstance.IsStatic() ) return;
 
-            transform.position = target.position;
+            transform.position = new Vector3( target.position.x, target.position.y + verticalDistance, target.position.z + horizontalDistance );
 
-            if ( _currentCameraInstance.IsStatic() ) return;
-
-            float   laziness        = _currentCameraInstance.Laziness;
-            Vector3 desiredPosition = new( transform.position.x, transform.position.y, _currentCameraTransform.position.z );
-
-            _currentCameraTransform.position = Vector3.Lerp( _currentCameraTransform.position, desiredPosition, laziness * Time.deltaTime );
+            float laziness = _currentCameraInstance.Laziness;
+            _currentCameraTransform.position = Vector3.Lerp( _currentCameraTransform.position, transform.position, laziness * Time.deltaTime );
         }
 
         private void LookAtTarget()

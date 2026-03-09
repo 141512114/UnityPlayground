@@ -632,8 +632,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2150215790773898378, guid: 70739b7c2ef16499d965e433a8d327c6, type: 3}
+      propertyPath: verticalDistance
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2150215790773898378, guid: 70739b7c2ef16499d965e433a8d327c6, type: 3}
       propertyPath: cameras.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2150215790773898378, guid: 70739b7c2ef16499d965e433a8d327c6, type: 3}
+      propertyPath: horizontalDistance
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 2150215790773898378, guid: 70739b7c2ef16499d965e433a8d327c6, type: 3}
       propertyPath: 'cameras.Array.data[0]'
