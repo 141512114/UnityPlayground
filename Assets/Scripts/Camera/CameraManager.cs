@@ -34,10 +34,11 @@ namespace Camera
         [Label( "Kamerakollisionsradius", "Der Radius der Kugel, die für die Kollisionsprüfung verwendet wird, um zu verhindern, dass die Kamera durch Wände geht." )]
         public float cameraRadius = 0.3f;
 
-        private CameraInstance     _currentCameraInstance;
         private int                _currentCameraIndex;
         private UnityEngine.Camera _currentCamera;
         private Transform          _currentCameraTransform;
+        
+        public CameraInstance CurrentCameraInstance { get; private set; }
 
         private float   _yaw;
         private float   _pitch;
@@ -94,9 +95,9 @@ namespace Camera
             }
 
             // Aktiviere die aktuelle Kamera und deaktiviere alle anderen Kameras, um sicherzustellen, dass nur eine Kamera aktiv ist.
-            _currentCameraInstance = cameras[ _currentCameraIndex ];
-            _currentCamera         = _currentCameraInstance?.Camera;
-            if ( _currentCameraInstance == null || _currentCamera == null )
+            CurrentCameraInstance = cameras[ _currentCameraIndex ];
+            _currentCamera         = CurrentCameraInstance?.Camera;
+            if ( CurrentCameraInstance == null || _currentCamera == null )
             {
                 Debug.LogError( "CameraManager: Die aktuelle Kamera-Instanz oder die Kamera-Komponente ist null. Bitte überprüfen Sie die Kamerakonfiguration.", gameObject );
                 enabled = false;
@@ -140,37 +141,37 @@ namespace Camera
         {
             _currentCamera.gameObject.SetActive( false );
             _currentCameraIndex     = ( _currentCameraIndex + 1 ) % cameras.Length;
-            _currentCameraInstance  = cameras[ _currentCameraIndex ];
-            _currentCamera          = _currentCameraInstance.Camera;
+            CurrentCameraInstance  = cameras[ _currentCameraIndex ];
+            _currentCamera          = CurrentCameraInstance.Camera;
             _currentCameraTransform = _currentCamera.transform;
             _currentCamera.gameObject.SetActive( true );
         }
 
         private void FollowTarget()
         {
-            if ( !target || !_currentCameraInstance || !_currentCameraTransform )
+            if ( !target || !CurrentCameraInstance || !_currentCameraTransform )
                 return;
 
-            if ( _currentCameraInstance.IsStatic() )
+            if ( CurrentCameraInstance.IsStatic() )
                 return;
 
             // Wenn Mausrotation aktiv ist, übernimmt RotateWithMouse die Position
-            if ( _currentCameraInstance.RotateWithMouse() )
+            if ( CurrentCameraInstance.RotateWithMouse() )
                 return;
 
             float smoothY = Mathf.Lerp( _currentCameraTransform.position.y, target.position.y + verticalDistance, 5f * Time.deltaTime );
             transform.position = new Vector3( target.position.x, smoothY, target.position.z + horizontalDistance );
 
             _currentCameraTransform.position =
-                Vector3.SmoothDamp( _currentCameraTransform.position, transform.position, ref _cameraVelocity, _currentCameraInstance.Laziness * Time.deltaTime );
+                Vector3.SmoothDamp( _currentCameraTransform.position, transform.position, ref _cameraVelocity, CurrentCameraInstance.Laziness * Time.deltaTime );
         }
 
         private void LookAtTarget()
         {
-            if ( !target || !_currentCameraTransform || !_currentCameraInstance )
+            if ( !target || !_currentCameraTransform || !CurrentCameraInstance )
                 return;
 
-            if ( _currentCameraInstance.IsRotationLocked() )
+            if ( CurrentCameraInstance.IsRotationLocked() )
                 return;
 
             LookAtSlerp();
@@ -184,12 +185,12 @@ namespace Camera
         {
             Quaternion targetRotation = Quaternion.LookRotation( target.position - _currentCameraTransform.position );
             _currentCameraTransform.rotation =
-                Quaternion.Slerp( _currentCameraTransform.rotation, targetRotation, _currentCameraInstance.Laziness * 10 * Time.deltaTime );
+                Quaternion.Slerp( _currentCameraTransform.rotation, targetRotation, CurrentCameraInstance.Laziness * 10 * Time.deltaTime );
         }
 
         private void RotateWithMouse()
         {
-            if ( !_currentCameraInstance.RotateWithMouse() )
+            if ( !CurrentCameraInstance.RotateWithMouse() )
                 return;
 
             float mouseX = Input.GetAxis( "Mouse X" ) * sensitivity;
