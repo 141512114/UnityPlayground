@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 703aa715c9d0348fdb5aca30f0f83727, type: 3}
-  m_Name: SceneProfile
+  m_Name: RoomDatabase
   m_EditorClassIdentifier: Assembly-CSharp::Scene.SceneProfile
   rooms:
   - {fileID: 1299646246619036422, guid: cc8f4e3ca2ccd4f37a21c1ab42923c36, type: 3}
