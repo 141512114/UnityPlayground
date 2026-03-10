@@ -49,11 +49,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   rigidbody: {fileID: 7640284629879676912}
-  isPlattformer: 1
+  isPlatformer: 1
   moveSpeed: 30
   jumpForce: 50
   maxHorizontalSpeed: 5
   maxVerticalSpeed: 5
+  _cameraManager: {fileID: 2150215790773898378}
 --- !u!114 &2113048970386625422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,6 +127,11 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   target: {fileID: 6145331107819436019}
+  verticalDistance: 0.5
+  horizontalDistance: -2
+  minDistance: 1
+  sensitivity: 3
+  cameraRadius: 0.3
 --- !u!1 &7314029593337875067
 GameObject:
   m_ObjectHideFlags: 0

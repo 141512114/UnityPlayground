@@ -1,4 +1,5 @@
 using Attributes;
+using Camera;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -13,7 +14,10 @@ namespace Player
     {
         public new Rigidbody rigidbody;
 
-        [FormerlySerializedAs( "isPlattformer" )]
+        [SerializeField] private CameraManager _cameraManager;
+
+        public CameraManager CameraManager => _cameraManager;
+
         [Header( "Einstellungen" )]
         [Label( "Platformer-Modus", "Aktivieren, um vertikale Bewegungen (Springen/Drücken) zu ermöglichen. Deaktivieren für reine horizontale Bewegung." )]
         public bool isPlatformer;

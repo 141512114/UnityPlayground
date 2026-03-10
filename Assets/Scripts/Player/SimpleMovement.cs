@@ -16,7 +16,11 @@ namespace Player
 
             if ( !moveAction.IsPressed() || moveValue == Vector2.zero ) return;
 
-            Vector3 moveVector = playerController.moveSpeed / 10 * Time.fixedDeltaTime * new Vector3( moveValue.x, 0, moveValue.y ).normalized;
+            Vector3 forward = playerController.CameraManager.CurrentCameraInstance.transform.forward;
+            Vector3 right   = playerController.CameraManager.CurrentCameraInstance.transform.right;
+            Vector3 dir     = forward * moveValue.y + right * moveValue.x;
+
+            Vector3 moveVector = playerController.moveSpeed / 10 * Time.fixedDeltaTime * dir;
 
             playerController.transform.Translate( moveVector, Space.World );
         }
