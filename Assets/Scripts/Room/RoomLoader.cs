@@ -25,6 +25,11 @@ namespace Room
             for ( int databaseIndex = 0; databaseIndex < roomDatabases.Count; databaseIndex++ ) { LoadRoomsFromDatabase( roomDatabases[ databaseIndex ], databaseIndex ); }
         }
 
+        /// <summary>
+        /// Lädt Räume aus einer gegebenen RoomDatabase und instanziiert sie an den definierten Load Points.
+        /// </summary>
+        /// <param name="database"></param>
+        /// <param name="databaseIndex"></param>
         private void LoadRoomsFromDatabase( RoomDatabase database, int databaseIndex )
         {
             if ( database?.Rooms == null || database.Rooms.Count == 0 )
