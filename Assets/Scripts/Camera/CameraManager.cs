@@ -214,8 +214,6 @@ namespace Camera
         /// Überprüft, ob die gewünschte Kameraposition eine Kollision mit der Umgebung verursachen würde,
         /// und korrigiert die Position entsprechend, um zu verhindern, dass die Kamera durch Wände oder andere Hindernisse geht.
         /// </summary>
-        /// <param name="targetPos"></param>
-        /// <param name="desiredPos"></param>
         private void HandleCollision( Vector3 targetPos, Vector3 desiredPos )
         {
             Vector3 dir  = ( desiredPos - targetPos ).normalized;

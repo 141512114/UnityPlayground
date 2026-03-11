@@ -11,28 +11,33 @@ namespace Room
         [SerializeField] private List< RoomDatabase > roomDatabases;
         [SerializeField] private List< Transform >    loadPoints;
 
-        public List< Transform > LoadPoints => loadPoints;
+        public List< Transform >    LoadPoints  => loadPoints;
+        public List< RoomInstance > LoadedRooms { get; private set; }
 
-        public void LoadRooms()
+        private void Awake() { LoadedRooms = new List< RoomInstance >(); }
+
+        public bool LoadRooms()
         {
             if ( roomDatabases == null || roomDatabases.Count == 0 )
             {
                 Debug.LogWarning( "RoomLoader: Es gibt keine Raumdatenbank." );
                 enabled = false;
-                return;
+                return false;
             }
 
+            LoadedRooms.Clear();
+
             for ( int databaseIndex = 0; databaseIndex < roomDatabases.Count; databaseIndex++ ) { LoadRoomsFromDatabase( roomDatabases[ databaseIndex ], databaseIndex ); }
+
+            return true;
         }
 
         /// <summary>
         /// Lädt Räume aus einer gegebenen RoomDatabase und instanziiert sie an den definierten Load Points.
         /// </summary>
-        /// <param name="database"></param>
-        /// <param name="databaseIndex"></param>
         private void LoadRoomsFromDatabase( RoomDatabase database, int databaseIndex )
         {
-            if ( database?.Rooms == null || database.Rooms.Count == 0 )
+            if ( database.Rooms is not { Count: > 0 } )
             {
                 Debug.LogWarning( $"RoomLoader: Raumdatenbank mit Index {databaseIndex} besitzt keine Räume." );
                 return;
@@ -46,7 +51,8 @@ namespace Room
                 int roomIndex = Random.Range( 0,                                        database.Rooms.Count );
                 while ( visitedRooms[ roomIndex ] == 1 ) { roomIndex = Random.Range( 0, database.Rooms.Count ); }
 
-                GameObject roomPrefab = roomDatabases[ databaseIndex ].Rooms[ roomIndex ];
+                RoomInstance roomInstance = database.Rooms[ roomIndex ];
+                GameObject   roomPrefab   = roomInstance?.gameObject;
 
                 if ( !roomPrefab ) return;
 
@@ -58,6 +64,8 @@ namespace Room
                 room.transform.parent = loadPoint;
 
                 visitedRooms[ roomIndex ] = 1;
+                RoomInstance instantiatedRoom = room.GetComponent< RoomInstance >();
+                if ( instantiatedRoom ) { LoadedRooms.Add( instantiatedRoom ); }
             }
         }
     }

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: RoomDatabaseDemo
   m_EditorClassIdentifier: Assembly-CSharp::Room.RoomDatabase
   rooms:
-  - {fileID: 6985155740495454770, guid: 37f8cb794e02ae9489d9786cccb26ab6, type: 3}
-  - {fileID: 6985155740495454770, guid: b9e6391cade9e6a42aa6edf47ec4030f, type: 3}
-  - {fileID: 6985155740495454770, guid: 95ee90684b7c7174cad6c6075c246edc, type: 3}
-  - {fileID: 6985155740495454770, guid: 47f50bb0f04e53746825d0260e1a0ff0, type: 3}
-  - {fileID: 6985155740495454770, guid: 95f8bb23721b2b443b05e736d3319a86, type: 3}
-  - {fileID: 6985155740495454770, guid: 58d0cb94365f3c5468d2e48d3da49e7a, type: 3}
+  - {fileID: 4785626768672765000, guid: 37f8cb794e02ae9489d9786cccb26ab6, type: 3}
+  - {fileID: 155859760481376653, guid: b9e6391cade9e6a42aa6edf47ec4030f, type: 3}
+  - {fileID: -1237766093221277224, guid: 95ee90684b7c7174cad6c6075c246edc, type: 3}
+  - {fileID: -483727688192242195, guid: 47f50bb0f04e53746825d0260e1a0ff0, type: 3}
+  - {fileID: 4245223555254425701, guid: 95f8bb23721b2b443b05e736d3319a86, type: 3}
+  - {fileID: -2661641027025275794, guid: 58d0cb94365f3c5468d2e48d3da49e7a, type: 3}
