@@ -11,6 +11,8 @@ namespace Room
         [SerializeField] private List< RoomDatabase > roomDatabases;
         [SerializeField] private List< Transform >    loadPoints;
 
+        public List< Transform > LoadPoints => loadPoints;
+
         public void LoadRooms()
         {
             if ( roomDatabases == null || roomDatabases.Count == 0 )
@@ -41,11 +43,11 @@ namespace Room
 
                 GameObject roomPrefab = roomDatabases[ databaseIndex ].Rooms[ roomIndex ];
 
-                if ( roomPrefab == null ) return;
+                if ( !roomPrefab ) return;
 
                 // Instanziiere den Raum an der Position und Rotation des Load Points
-                Vector3    position = loadPoint == null ? Vector3.zero : loadPoint.position;
-                Quaternion rotation = loadPoint == null ? Quaternion.identity : loadPoint.rotation;
+                Vector3    position = !loadPoint ? Vector3.zero : loadPoint.position;
+                Quaternion rotation = !loadPoint ? Quaternion.identity : loadPoint.rotation;
 
                 GameObject room = Instantiate( roomPrefab, position, rotation );
                 room.transform.parent = loadPoint;

@@ -13,6 +13,15 @@ namespace Scene
 
         private void Start() { LoadRooms(); }
 
+        private void Update()
+        {
+            // Ermöglicht das Neuladen der Räume durch Drücken der R-Taste.
+            // Diese Funktion kann sehr ressourcenintensiv sein, wenn viele Räume geladen sind, daher sollte sie mit Vorsicht verwendet werden.
+            if ( !Input.GetKeyDown( KeyCode.R ) ) return;
+            TrashRooms();
+            LoadRooms();
+        }
+
         /// <summary>
         /// Lädt Räume basierend auf den Einstellungen der RoomLoader-Komponente, die auf demselben GameObject vorhanden sein muss.
         /// </summary>
@@ -32,6 +41,15 @@ namespace Scene
             if ( _loader != null ) return;
             Debug.LogError( "SceneController requires a RoomLoader component on the same GameObject." );
             enabled = false;
+        }
+
+        /// <summary>
+        /// Zerstört alle Räume, die von der RoomLoader-Komponente geladen wurden.
+        /// </summary>
+        private void TrashRooms()
+        {
+            GetRoomLoader();
+            foreach ( Transform child in _loader.LoadPoints ) { Destroy( child.GetChild( 0 ).gameObject ); }
         }
     }
 }
