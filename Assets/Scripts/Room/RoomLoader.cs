@@ -31,22 +31,27 @@ namespace Room
                 return;
             }
 
-            for ( int roomIndex = 0; roomIndex < database.Rooms.Count; roomIndex++ ) { LoadRoom( database.Rooms[ roomIndex ], roomIndex ); }
+            int[] visitedRooms = new int[ database.Rooms.Count ];
+
+            foreach ( Transform loadPoint in loadPoints )
+            {
+                // Wähle einen zufälligen Raum aus der Datenbank, der noch nicht besucht wurde
+                int roomIndex = Random.Range( 0,                                        database.Rooms.Count );
+                while ( visitedRooms[ roomIndex ] == 1 ) { roomIndex = Random.Range( 0, database.Rooms.Count ); }
+
+                GameObject roomPrefab = roomDatabases[ databaseIndex ].Rooms[ roomIndex ];
+
+                if ( roomPrefab == null ) return;
+
+                // Instanziiere den Raum an der Position und Rotation des Load Points
+                Vector3    position = loadPoint == null ? Vector3.zero : loadPoint.position;
+                Quaternion rotation = loadPoint == null ? Quaternion.identity : loadPoint.rotation;
+
+                GameObject room = Instantiate( roomPrefab, position, rotation );
+                room.transform.parent = loadPoint;
+
+                visitedRooms[ roomIndex ] = 1;
+            }
         }
-
-        private void LoadRoom( GameObject roomPrefab, int roomIndex )
-        {
-            if ( roomPrefab == null ) return;
-
-            Transform  loadPoint = GetLoadPoint( roomIndex );
-            
-            Vector3    position  = loadPoint   == null ? Vector3.zero : loadPoint.position;
-            Quaternion rotation  = loadPoint   == null ? Quaternion.identity : loadPoint.rotation;
-            
-            GameObject room = Instantiate( roomPrefab, position, rotation );
-            room.transform.parent = loadPoint;
-        }
-
-        private Transform GetLoadPoint( int index ) { return index < loadPoints.Count ? loadPoints[ index ] : null; }
     }
 }
