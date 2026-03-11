@@ -38,8 +38,13 @@ namespace Room
         {
             if ( roomPrefab == null ) return;
 
-            Transform loadPoint = GetLoadPoint( roomIndex );
-            Instantiate( roomPrefab, loadPoint == null ? Vector3.zero : loadPoint.position, Quaternion.identity );
+            Transform  loadPoint = GetLoadPoint( roomIndex );
+            
+            Vector3    position  = loadPoint   == null ? Vector3.zero : loadPoint.position;
+            Quaternion rotation  = loadPoint   == null ? Quaternion.identity : loadPoint.rotation;
+            
+            GameObject room = Instantiate( roomPrefab, position, rotation );
+            room.transform.parent = loadPoint;
         }
 
         private Transform GetLoadPoint( int index ) { return index < loadPoints.Count ? loadPoints[ index ] : null; }

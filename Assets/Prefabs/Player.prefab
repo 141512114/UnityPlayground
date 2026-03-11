@@ -49,12 +49,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   rigidbody: {fileID: 7640284629879676912}
+  _cameraManager: {fileID: 2150215790773898378}
   isPlatformer: 1
   moveSpeed: 30
   jumpForce: 50
   maxHorizontalSpeed: 5
   maxVerticalSpeed: 5
-  _cameraManager: {fileID: 2150215790773898378}
 --- !u!114 &2113048970386625422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,7 +250,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 120
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!135 &7608057087105338988
 SphereCollider:
   m_ObjectHideFlags: 0
