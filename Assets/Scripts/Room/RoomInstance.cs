@@ -1,3 +1,4 @@
+using Room.Misc;
 using UnityEngine;
 
 namespace Room
@@ -9,8 +10,8 @@ namespace Room
     [RequireComponent( typeof( RoomController ) )]
     public class RoomInstance : MonoBehaviour
     {
-        private bool                    _hasAbnormality;
-        private AbnormalityInstance[]   _abnormalities;
+        private bool                  _hasAbnormality;
+        private AbnormalityInstance[] _abnormalities;
 
         private void Awake()
         {
@@ -21,10 +22,7 @@ namespace Room
         /// <summary>
         /// Lädt alle AbnormalityInstance-Komponenten, die sich in diesem Raum befinden, und speichert sie in einem Array.
         /// </summary>
-        private void LoadAbnormalities()
-        {
-            _abnormalities = gameObject.GetComponentsInChildren< AbnormalityInstance >( true );
-        }
+        private void LoadAbnormalities() { _abnormalities = gameObject.GetComponentsInChildren< AbnormalityInstance >( true ); }
 
         /// <summary>
         /// Setzt den Wert von _hasAbnormality und aktiviert oder deaktiviert die Abnormalität(en) in diesem Raum basierend auf dem neuen Wert.
@@ -43,11 +41,10 @@ namespace Room
         {
             if ( _abnormalities is not { Length: > 0 } ) return;
 
-            foreach ( AbnormalityInstance instance in _abnormalities )
-            {
-                if ( _hasAbnormality ) instance.Show();
-                else instance.Hide();
-            }
+            int randomIndex = Random.Range( 0, _abnormalities.Length );
+
+            if ( _hasAbnormality ) _abnormalities[ randomIndex ].Show();
+            else _abnormalities[ randomIndex ].Hide();
         }
     }
 }

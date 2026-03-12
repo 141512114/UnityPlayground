@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Room
+namespace Room.Misc
 {
     public class GoalController : MonoBehaviour
     {

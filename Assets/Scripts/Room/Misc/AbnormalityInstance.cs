@@ -1,7 +1,7 @@
 using Attributes;
 using UnityEngine;
 
-namespace Room
+namespace Room.Misc
 {
     /// <summary>
     /// Erlaubt die Steuerung von Abnormalitäten in einem Raum,

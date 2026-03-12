@@ -1,7 +1,7 @@
 using Common;
 using UnityEngine;
 
-namespace Room
+namespace Room.Misc
 {
     /// <summary>
     /// Steuert die Interaktion mit Triggern in einem Raum, z.B. das Öffnen von Türen.

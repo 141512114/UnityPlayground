@@ -218,11 +218,8 @@ GameObject:
   - component: {fileID: 223421133}
   - component: {fileID: 223421136}
   - component: {fileID: 223421135}
-  - component: {fileID: 223421134}
-  - component: {fileID: 223421138}
-  - component: {fileID: 223421137}
   m_Layer: 0
-  m_Name: Ball
+  m_Name: Mesh
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -236,34 +233,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223421132}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1021211292}
+  m_Father: {fileID: 1200320099}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &223421134
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 223421132}
-  m_Material: {fileID: 13400000, guid: ffd16d02acda4654c9f57a0d6aaa66c9, type: 2}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &223421135
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -321,48 +297,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223421132}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &223421137
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 223421132}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 195a4dc8a4bc0f14ea851605d6a1de67, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Player.GolfBallMovement
-  cameraManager: {fileID: 326884081}
-  swingForce: 135
-  minVelocity: 0.1
---- !u!54 &223421138
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 223421132}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0.3
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 1
 --- !u!1 &280624703
 GameObject:
   m_ObjectHideFlags: 0
@@ -550,7 +484,8 @@ Transform:
   m_LocalPosition: {x: -155.40002, y: 3.8900013, z: -180.56998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 339511220}
   m_Father: {fileID: 1021211292}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &326884081
@@ -567,12 +502,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   cameras:
   - {fileID: 339511221}
-  target: {fileID: 223421133}
-  verticalDistance: 1
-  horizontalDistance: -7
-  minDistance: 1
-  sensitivity: 3
-  cameraRadius: 0.3
 --- !u!1 &339511217
 GameObject:
   m_ObjectHideFlags: 0
@@ -585,6 +514,7 @@ GameObject:
   - component: {fileID: 339511219}
   - component: {fileID: 339511218}
   - component: {fileID: 339511222}
+  - component: {fileID: 339511223}
   - component: {fileID: 339511221}
   m_Layer: 0
   m_Name: Main Camera
@@ -661,11 +591,11 @@ Transform:
   m_GameObject: {fileID: 339511217}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -5.35}
+  m_LocalPosition: {x: 155.40002, y: -3.8900013, z: 175.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1021211292}
+  m_Father: {fileID: 326884080}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &339511221
 MonoBehaviour:
@@ -679,7 +609,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dfa044ec9be698439eb794e983f144f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Camera.CameraInstance
-  profile: {fileID: 11400000, guid: cdcba376098c7694394fbc99f0b0be09, type: 2}
+  isMainCamera: 1
+  isFirstPerson: 0
+  rotateWithMouse: 1
+  lockPosition: 0
+  lockRotation: 0
+  laziness: 0.5
+  verticalDistance: 1
+  horizontalDistance: -4
+  minDistance: 1
+  sensitivity: 3
+  cameraRadius: 0.3
 --- !u!114 &339511222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -724,6 +664,19 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &339511223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 339511217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01aec9c8135144f8b0fdc5b232af1ae9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Camera.CameraController
+  target: {fileID: 1200320099}
 --- !u!1 &749881963
 GameObject:
   m_ObjectHideFlags: 0
@@ -859,8 +812,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 223421133}
-  - {fileID: 339511220}
+  - {fileID: 1200320099}
   - {fileID: 326884080}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1035,6 +987,104 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0389610b5a9fa44898254f0e8381979, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+--- !u!1 &1200320098
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1200320099}
+  - component: {fileID: 1200320102}
+  - component: {fileID: 1200320101}
+  - component: {fileID: 1200320100}
+  m_Layer: 0
+  m_Name: Wrapper
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1200320099
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200320098}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 223421133}
+  m_Father: {fileID: 1021211292}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1200320100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200320098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 195a4dc8a4bc0f14ea851605d6a1de67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player.GolfBallMovement
+  cameraManager: {fileID: 326884081}
+  swingForce: 135
+  minVelocity: 0.1
+--- !u!54 &1200320101
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200320098}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0.3
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
+--- !u!135 &1200320102
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200320098}
+  m_Material: {fileID: 13400000, guid: ffd16d02acda4654c9f57a0d6aaa66c9, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1784487171
 GameObject:
   m_ObjectHideFlags: 0
