@@ -10,7 +10,7 @@ namespace Room
     public class RoomInstance : MonoBehaviour
     {
         private bool                    _hasAbnormality;
-        private AbnormalityController[] _abnormalities;
+        private AbnormalityInstance[]   _abnormalities;
 
         private void Awake()
         {
@@ -19,11 +19,11 @@ namespace Room
         }
 
         /// <summary>
-        /// Lädt alle AbnormalityController-Komponenten, die sich in diesem Raum befinden, und speichert sie in einem Array.
+        /// Lädt alle AbnormalityInstance-Komponenten, die sich in diesem Raum befinden, und speichert sie in einem Array.
         /// </summary>
         private void LoadAbnormalities()
         {
-            _abnormalities = gameObject.GetComponentsInChildren< AbnormalityController >( true );
+            _abnormalities = gameObject.GetComponentsInChildren< AbnormalityInstance >( true );
         }
 
         /// <summary>
@@ -43,10 +43,10 @@ namespace Room
         {
             if ( _abnormalities is not { Length: > 0 } ) return;
 
-            foreach ( AbnormalityController controller in _abnormalities )
+            foreach ( AbnormalityInstance instance in _abnormalities )
             {
-                if ( _hasAbnormality ) controller.Show();
-                else controller.Hide();
+                if ( _hasAbnormality ) instance.Show();
+                else instance.Hide();
             }
         }
     }
