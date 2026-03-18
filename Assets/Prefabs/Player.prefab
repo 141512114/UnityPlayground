@@ -87,7 +87,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player.PlayerMovement
   gravity: 9.81
-  moveSpeed: 15
+  moveSpeed: 7
   jumpHeight: 5
 --- !u!1 &5830560327157046472
 GameObject:
